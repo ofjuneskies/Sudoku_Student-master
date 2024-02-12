@@ -10,7 +10,7 @@ BTSolver::BTSolver ( SudokuBoard input, Trail* _trail,  string val_sh, string va
 : sudokuGrid( input.get_p(), input.get_q(), input.get_board() ), network( input )
 {
 	valHeuristics = val_sh;
-	varHeuristics = var_sh; 
+	varHeuristics = var_sh;
 	cChecks =  cc;
 
 	trail = _trail;
@@ -91,7 +91,30 @@ bool BTSolver::arcConsistency ( void )
  */
 pair<map<Variable*,Domain>,bool> BTSolver::forwardChecking ( void )
 {
-	return make_pair(map<Variable*, Domain>(), false);
+	/**
+	 * Each time value is assigned to a var, that value is removed from domain of
+	 * free variables in same line, same column, or say square
+	*/
+	map<Variable*, Domain> modifiedVars;
+	ConstraintNetwork::VariableSet v = network.getVariables(); // variables on board
+
+	// choosing value to var
+	Variable* var;
+	int val = var.getAssignment();
+
+	// iterate through neighbours to remove value from their domain
+	for(Variable* neighbour : network.getNeighborsOfVariable(var)){
+		trail.push(neighbour);
+		Domain neighbourDom = neighbour.getDomain();
+		neighbour.removeValueFromDomain(val);
+		modifiedVars[neigbour] = neighbourDom;
+	}
+	
+	if(!network.isConsistent()){
+		return make_pair(modifiedVars, false);
+	}
+
+	return make_pair(modifiedVars, true);
 }
 
 /**
