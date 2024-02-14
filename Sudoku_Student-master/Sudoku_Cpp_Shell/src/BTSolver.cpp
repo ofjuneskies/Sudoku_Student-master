@@ -96,22 +96,25 @@ pair<map<Variable*,Domain>,bool> BTSolver::forwardChecking ( void )
 	 * free variables in same line, same column, or say square
 	*/
 	map<Variable*, Domain> modifiedVars;
-	ConstraintNetwork::VariableSet v = network.getVariables(); // variables on board
+	vector<Constraint*> v = network.getModifiedConstraints(); // variables on board with value
 
-	// choosing value to var
-	Variable* var;
-	int val = var.getAssignment();
+    for (Variable* var : v)
+    {
+		int val = var.getAssignment(); // getting value of var
 
-	// iterate through neighbours to remove value from their domain
-	for(Variable* neighbour : network.getNeighborsOfVariable(var)){
-		trail.push(neighbour);
-		Domain neighbourDom = neighbour.getDomain();
-		neighbour.removeValueFromDomain(val);
-		modifiedVars[neigbour] = neighbourDom;
-	}
-	
-	if(!network.isConsistent()){
-		return make_pair(modifiedVars, false);
+		// iterate through neighbours to remove value from their domain
+		for(Variable* neighbour : network.getNeighborsOfVariable(var)){
+			Domain neighbourDom = neighbour.getDomain();
+			if(neighbourDom.contains(val)){
+				trail.push(neighbour);
+				neighbour.removeValueFromDomain(val);
+				modifiedVars[neigbour] = neighbourDom;
+			}
+		}
+		
+		if(!network.isConsistent()){
+			return make_pair(modifiedVars, false);
+		}
 	}
 
 	return make_pair(modifiedVars, true);
