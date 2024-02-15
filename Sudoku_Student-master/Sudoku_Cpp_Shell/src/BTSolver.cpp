@@ -98,17 +98,17 @@ pair<map<Variable*,Domain>,bool> BTSolver::forwardChecking ( void )
 	map<Variable*, Domain> modifiedVars;
 	vector<Constraint*> v = network.getModifiedConstraints(); // variables on board with value
 
-    for (Variable* var : v)
+    for (Constraint* var : v)
     {
-		int val = var.getAssignment(); // getting value of var
+		int val = var->getAssignment(); // getting value of var
 
 		// iterate through neighbours to remove value from their domain
 		for(Variable* neighbour : network.getNeighborsOfVariable(var)){
-			Domain neighbourDom = neighbour.getDomain();
+			Domain neighbourDom = neighbour->getDomain();
 			if(neighbourDom.contains(val)){
-				trail.push(neighbour);
-				neighbour.removeValueFromDomain(val);
-				modifiedVars[neigbour] = neighbourDom;
+				trail->push(neighbour);
+				neighbour->removeValueFromDomain(val);
+				modifiedVars[neighbour] = neighbourDom;
 			}
 		}
 		
