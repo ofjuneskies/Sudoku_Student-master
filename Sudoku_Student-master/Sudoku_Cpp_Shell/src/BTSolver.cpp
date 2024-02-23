@@ -178,7 +178,32 @@ Variable* BTSolver::getfirstUnassignedVariable ( void )
  */
 Variable* BTSolver::getMRV ( void )
 {
-    return nullptr;
+	ConstraintNetwork::VariableSet vars = network.getVariables;
+
+	ConstraintNetwork::VariableSet unassignedVars; // set of unassigned variables
+	for(Variable* v : vars){
+		if(v->getAssignment == 0){
+			unassignedVars.push_back(v); 
+		}
+	}
+
+	// if no unassigned variables, return null
+	if(unassignedVars.size() == 0){
+		return nullptr;
+	}
+
+	// find variable with smallest domain
+	Variable* retVar = unassignedVars[0];
+	int minDomain = retVar->getDomain.size();
+	for(Variable* v : unassignedVars){
+		int compare = v->getDomain.size();
+		if(compare < minDomain){
+			minDomain = compare;
+			retVar = v;
+		}
+	}
+
+    return retVar;
 }
 
 /**
