@@ -260,7 +260,7 @@ vector<int> BTSolver::getValuesLCVOrder ( Variable* v )
 
 	// check how many neighbours each value will knock out
 	vector<Variable*> neighbours = network.getNeighborsOfVariable(v);
-	std::map<int, int> neighboursKnockedOut;
+	vector<std::pair<int, int>> neighboursKnockedOut;
 	for(int val : vals){
 		int count = 0;
 		for(Variable* n : neighbours){
@@ -268,13 +268,14 @@ vector<int> BTSolver::getValuesLCVOrder ( Variable* v )
 				count++;
 			}
 		}
-		neighboursKnockedOut[count] = val; // key = # of neighbours, value = variable value
+		std::pair<int, int> pushVal(val, count);
+		neighboursKnockedOut.push_back(pushVal);
 	}
 
-	// std::sort(neighboursKnockedOut.begin(), neighboursKnockedOut.end());
+	std::sort(neighboursKnockedOut.begin(), neighboursKnockedOut.end());
 
-	for(std::map<int, int>::iterator it = neighboursKnockedOut.begin(); it != neighboursKnockedOut.end(); it++){
-		ret_vec.push_back(it->second);
+	for(std::pair<int, int> p : neighboursKnockedOut){
+		ret_vec.push_back(p.second);
 	}
 
     return ret_vec;
