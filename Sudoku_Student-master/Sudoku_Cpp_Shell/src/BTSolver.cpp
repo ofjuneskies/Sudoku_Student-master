@@ -254,7 +254,30 @@ vector<int> BTSolver::getValuesInOrder ( Variable* v )
  */
 vector<int> BTSolver::getValuesLCVOrder ( Variable* v )
 {
-    return vector<int>();
+	vector<int> ret_vec = vector<int>();
+
+	Domain::ValueSet vals = v->getDomain().getValues();
+
+	// check how many neighbours each value will knock out
+	vector<Variable*> neighbours = network.getNeighborsOfVariable(v);
+	map<int, int> neighboursKnockedOut;
+	for(int val : vals){
+		int count = 0;
+		for(Variable* n : neighbours){
+			if(n->getDomain().contains(val)){
+				count++;
+			}
+		}
+		neighboursKnockedOut[count] = val; // key = # of neighbours, value = variable value
+	}
+
+	std::sort(neighboursKnockedOut.begin(), neighboursKnockedOut.end())
+
+	for(int mapV : neighboursKnockedOut){
+		ret_vec.push_back(mapV);
+	}
+
+    return ret_vec;
 }
 
 /**
