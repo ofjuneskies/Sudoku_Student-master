@@ -268,7 +268,7 @@ vector<int> BTSolver::getValuesLCVOrder ( Variable* v )
 				count++;
 			}
 		}
-		std::pair<int, int> pushVal(val, count);
+		std::pair<int, int> pushVal(count, val);
 		neighboursKnockedOut.push_back(pushVal);
 	}
 
