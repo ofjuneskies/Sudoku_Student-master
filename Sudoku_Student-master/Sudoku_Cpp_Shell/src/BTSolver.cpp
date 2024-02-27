@@ -271,9 +271,9 @@ vector<int> BTSolver::getValuesLCVOrder ( Variable* v )
 		neighboursKnockedOut[count] = val; // key = # of neighbours, value = variable value
 	}
 
-	std::sort(neighboursKnockedOut.begin(), neighboursKnockedOut.end());
+	// std::sort(neighboursKnockedOut.begin(), neighboursKnockedOut.end());
 
-	for(std::map<int, int>::iterator it = neighboursKnockedOut.begin(); it != neighboursKnockedOut.end(); ++it){
+	for(std::map<int, int>::iterator it = neighboursKnockedOut.begin(); it != neighboursKnockedOut.end(); it++){
 		ret_vec.push_back(it->second);
 	}
 
