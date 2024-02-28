@@ -275,7 +275,7 @@ vector<int> BTSolver::getValuesLCVOrder ( Variable* v )
 	sort(neighboursKnockedOut.begin(), neighboursKnockedOut.end());
 
 	for(auto c : neighboursKnockedOut){
-		cout << c << ' ';
+		cout << c.first << ' ';
 	}
 
 	for(pair<int, int> p : neighboursKnockedOut){
