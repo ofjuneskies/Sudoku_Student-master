@@ -276,7 +276,7 @@ vector<int> BTSolver::getValuesLCVOrder ( Variable* v )
 
 	for(pair<int, int> p : neighboursKnockedOut){
 		ret_vec.push_back(p.second);
-		cout << p.second << endl;
+		cout << p.first << endl;
 	}
 
     return ret_vec;
