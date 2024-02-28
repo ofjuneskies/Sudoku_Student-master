@@ -274,9 +274,13 @@ vector<int> BTSolver::getValuesLCVOrder ( Variable* v )
 
 	sort(neighboursKnockedOut.begin(), neighboursKnockedOut.end());
 
+	for(auto c : neighboursKnockedOut){
+		cout << c << ' ';
+	}
+
 	for(pair<int, int> p : neighboursKnockedOut){
 		ret_vec.push_back(p.second);
-		cout << p.first << endl;
+
 	}
 
     return ret_vec;
