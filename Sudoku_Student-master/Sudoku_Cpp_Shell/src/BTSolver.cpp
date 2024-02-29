@@ -113,9 +113,9 @@ pair<map<Variable*,Domain>,bool> BTSolver::forwardChecking ( void )
 		for(Variable* neighbour : network.getNeighborsOfVariable(var)){
 			Domain neighbourDom = neighbour->getDomain();
 			if(neighbourDom.contains(val)){
-				if(neighbour->isAssigned()){
-					return make_pair(modifiedVars, false);
-				}
+				// if(neighbour->isAssigned()){
+				// 	return make_pair(modifiedVars, false);
+				// }
 				trail->push(neighbour);
 				neighbour->removeValueFromDomain(val);
 				modifiedVars[neighbour] = neighbourDom;
