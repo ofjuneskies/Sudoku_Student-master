@@ -100,6 +100,7 @@ int main ( int argc, char *argv[] )
 		struct dirent *ent;
 
 		int numSolutions = 0;
+		int last_num_undo = 0; // testing
 		while ( ( ent = readdir (dir) ) != NULL )
 		{
 			if ( ent->d_name[0] == '.' )
@@ -120,6 +121,9 @@ int main ( int argc, char *argv[] )
 			if ( solver.haveSolution() )
 				numSolutions++;
 
+			int num_undo = trail.getUndoCount() - last_num_undo; //testing
+			last_num_undo = trail.getUndoCount(); //testing
+			print("Backtracks: " + str(num_undo)); //testing
 			trail.clear();
 		}
 
