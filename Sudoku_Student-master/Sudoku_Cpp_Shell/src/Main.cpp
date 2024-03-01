@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <string>
 
 using namespace std;
 
@@ -123,7 +124,7 @@ int main ( int argc, char *argv[] )
 
 			int num_undo = trail.getUndoCount() - last_num_undo; //testing
 			last_num_undo = trail.getUndoCount(); //testing
-			cout << ("Backtracks: " + num_undo.toString()) << endl; //testing
+			cout << ("Backtracks: " + to_string(num_undo)) << endl; //testing
 			trail.clear();
 		}
 
