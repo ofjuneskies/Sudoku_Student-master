@@ -123,7 +123,7 @@ int main ( int argc, char *argv[] )
 
 			int num_undo = trail.getUndoCount() - last_num_undo; //testing
 			last_num_undo = trail.getUndoCount(); //testing
-			print("Backtracks: " + str(num_undo)); //testing
+			cout << ("Backtracks: " + num_undo.toString()) << endl; //testing
 			trail.clear();
 		}
 
