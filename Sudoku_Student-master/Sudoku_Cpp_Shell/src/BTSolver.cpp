@@ -149,7 +149,42 @@ pair<map<Variable*,Domain>,bool> BTSolver::forwardChecking ( void )
  */
 pair<map<Variable*,int>,bool> BTSolver::norvigCheck ( void )
 {
-    return make_pair(map<Variable*, int>(), false);
+	map<Variable*,int> assignedVars;
+
+	// part 1: if var assigned, eliminate that value from square's neighbours
+	ConstraintNetwork::VariableSet variables = network.getVariables();
+	ConstraintNetwork::VariableSet modifiedVars;
+	for(Variable* v : variables){
+		if(v->isModified()){
+			modifiedVars.push_back(v);
+			v->setModified(false);
+		}
+	}
+
+	for (Variable* var : modifiedVars)
+	{
+		int val = var->getAssignment(); // getting value of var
+
+		// iterate through neighbours to remove value from their domain
+		for(Variable* neighbour : network.getNeighborsOfVariable(var)){
+			Domain neighbourDom = neighbour->getDomain();
+			if(neighbourDom.contains(val)){
+				if(neighbour->isAssigned()){
+					return make_pair(assignedVars, false);
+				}
+				trail->push(neighbour);
+				neighbour->removeValueFromDomain(val);
+			}
+		}
+	}
+
+	// part 2: if a constraint has only one possible place for a value then put the value there
+	ConstraintNetwork::ConstraintSet constraints = network.getConstraints();
+	for(Constraint c : constraints){
+
+	}
+
+    return make_pair(assignedVars, false);
 }
 
 /**
@@ -224,7 +259,56 @@ Variable* BTSolver::getMRV ( void )
  */
 vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 {
-    return vector<Variable*>();
+	vector<Variable*> retVec; 
+
+	ConstraintNetwork::VariableSet variables = network.getVariables();
+	ConstraintNetwork::VariableSet unassignedVars;
+	for(Variable* v : variables){
+		if(!v->isAssigned()){
+			unassignedVars.push_back(v);
+		}
+	}
+	
+	Variable* minVar = unassignedVars[0];
+	int minDomSize = minVar->size();
+	int maxNeighboursAffected;
+	ConstraintNetwork::VariableSet neighbours = network.getNeighborsOfVariable(minVar);
+
+	for(Variable* neighbour : neighbours){
+		if(!neighbour->isAssigned()){
+			maxNeighboursAffected++;
+		}
+	}
+
+	for(Variable* u : unassignedVars){
+		int currNeighboursAffected;
+		neighbours = network.getNeighborsOfVariable(u);
+		for(Variable* neighbour : neighbours){
+			if(!neighbour->isAssigned()){
+				currNeighboursAffected++;
+			}
+		}
+		if(u->size() < minDomSize && currNeighboursAffected > maxNeighboursAffected){
+			minDomSize = u->size();
+			maxNeighboursAffected = currNeighboursAffected;
+			minVar = u;
+		}
+	}
+
+	for(Variable* u : unassignedVars){
+		int currNeighboursAffected;
+		neighbours = network.getNeighborsOfVariable(u);
+		for(Variable* neighbour : neighbours){
+			if(!neighbour->isAssigned()){
+				currNeighboursAffected++;
+			}
+		}
+
+		if(u->size() == minDomSize && currNeighboursAffected == maxNeighboursAffected){
+			retVec.push_back(u);
+		}
+
+    return retVec;
 }
 
 /**
