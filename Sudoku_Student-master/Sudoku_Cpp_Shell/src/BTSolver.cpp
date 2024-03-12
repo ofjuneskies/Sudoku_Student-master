@@ -294,19 +294,16 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 		retVec.push_back(nullptr);
 		return retVec;
 	}
-	cout << "1" << endl;
 	Variable* minVar = unassignedVars[0];
 	int minDomSize = minVar->size();
 	int maxNeighboursAffected;
 	ConstraintNetwork::VariableSet neighbours = network.getNeighborsOfVariable(minVar);
-	cout << "2" << endl;
 
 	for(Variable* neighbour : neighbours){
 		if(!neighbour->isAssigned()){
 			maxNeighboursAffected++;
 		}
 	}
-	cout << "3" << endl;
 	for(Variable* u : unassignedVars){
 		int currNeighboursAffected;
 		neighbours = network.getNeighborsOfVariable(u);
@@ -321,26 +318,23 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 			minVar = u;
 		}
 	}
+
+	for(Variable* u : unassignedVars){
+		int currNeighboursAffected;
+		neighbours = network.getNeighborsOfVariable(u);
+		for(Variable* neighbour : neighbours){
+			if(!neighbour->isAssigned()){
+				currNeighboursAffected++;
+			}
+		}
+
+
+		if(u->size() == minDomSize && currNeighboursAffected == maxNeighboursAffected){
+			retVec.push_back(u);
+		}
+	}
 	retVec.push_back(minVar);
-	return retVec;
-
-	// cout << "4" << endl;
-	// for(Variable* u : unassignedVars){
-	// 	int currNeighboursAffected;
-	// 	neighbours = network.getNeighborsOfVariable(u);
-	// 	for(Variable* neighbour : neighbours){
-	// 		if(!neighbour->isAssigned()){
-	// 			currNeighboursAffected++;
-	// 		}
-	// 	}
-
-
-	// 	if(u->size() == minDomSize && currNeighboursAffected == maxNeighboursAffected){
-	// 		retVec.push_back(u);
-	// 	}
-	// }
-	// cout << "5" << endl;
-    // return retVec;
+    return retVec;
 }
 
 /**
