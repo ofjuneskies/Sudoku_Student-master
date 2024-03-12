@@ -184,7 +184,7 @@ pair<map<Variable*,int>,bool> BTSolver::norvigCheck ( void )
 
 	ConstraintNetwork::ConstraintSet constraints = network.getConstraints();
 	for(Constraint c : constraints){
-		for(int i = 1; i <= 9; i++){
+		for(int i = 1; i <= sudokuGrid.get_n(); i++){
 			int avail_pos_count = 0;
 			Variable* toAssign;
 			for(Variable* v : c.vars){
@@ -295,8 +295,6 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 		return retVec;
 	}
 
-	 
-	
 	Variable* minVar = unassignedVars[0];
 	int minDomSize = minVar->size();
 	int maxNeighboursAffected;
