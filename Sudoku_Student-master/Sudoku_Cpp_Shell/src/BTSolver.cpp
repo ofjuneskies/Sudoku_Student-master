@@ -289,6 +289,10 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 			unassignedVars.push_back(v);
 		}
 	}
+
+	if(unassigned.size() == 0){
+		return nullptr;
+	}
 	
 	Variable* minVar = unassignedVars[0];
 	int minDomSize = minVar->size();
