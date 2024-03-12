@@ -331,11 +331,12 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 			}
 		}
 
+
 		if(u->size() == minDomSize && currNeighboursAffected == maxNeighboursAffected){
 			retVec.push_back(u);
 		}
 	}
-
+	cout << "5" << endl;
     return retVec;
 }
 
