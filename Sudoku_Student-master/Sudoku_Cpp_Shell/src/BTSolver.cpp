@@ -290,7 +290,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 		}
 	}
 
-	if(unassigned.size() == 0){
+	if(unassignedVars.size() == 0){
 		return nullptr;
 	}
 	
