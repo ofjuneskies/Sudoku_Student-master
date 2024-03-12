@@ -291,7 +291,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 	}
 
 	if(unassignedVars.size() == 0){
-		return nullptr;
+		return retVec;
 	}
 	
 	Variable* minVar = unassignedVars[0];
