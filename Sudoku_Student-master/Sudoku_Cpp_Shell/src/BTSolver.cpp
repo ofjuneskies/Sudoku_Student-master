@@ -280,7 +280,7 @@ Variable* BTSolver::getMRV ( void )
  */
 vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 {
-	vector<Variable*> retVec; 
+	
 
 	ConstraintNetwork::VariableSet variables = network.getVariables();
 	ConstraintNetwork::VariableSet unassignedVars;
@@ -291,8 +291,11 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 	}
 
 	if(unassignedVars.size() == 0){
-		return retVec;
+		vector<Variable*> nullVec(1, nullptr); 
+		return nullVec;
 	}
+
+	vector<Variable*> retVec; 
 	
 	Variable* minVar = unassignedVars[0];
 	int minDomSize = minVar->size();
