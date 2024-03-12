@@ -321,23 +321,26 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 			minVar = u;
 		}
 	}
-	cout << "4" << endl;
-	for(Variable* u : unassignedVars){
-		int currNeighboursAffected;
-		neighbours = network.getNeighborsOfVariable(u);
-		for(Variable* neighbour : neighbours){
-			if(!neighbour->isAssigned()){
-				currNeighboursAffected++;
-			}
-		}
+	retVec.push_back(minVar);
+	return retVec;
+
+	// cout << "4" << endl;
+	// for(Variable* u : unassignedVars){
+	// 	int currNeighboursAffected;
+	// 	neighbours = network.getNeighborsOfVariable(u);
+	// 	for(Variable* neighbour : neighbours){
+	// 		if(!neighbour->isAssigned()){
+	// 			currNeighboursAffected++;
+	// 		}
+	// 	}
 
 
-		if(u->size() == minDomSize && currNeighboursAffected == maxNeighboursAffected){
-			retVec.push_back(u);
-		}
-	}
-	cout << "5" << endl;
-    return retVec;
+	// 	if(u->size() == minDomSize && currNeighboursAffected == maxNeighboursAffected){
+	// 		retVec.push_back(u);
+	// 	}
+	// }
+	// cout << "5" << endl;
+    // return retVec;
 }
 
 /**
