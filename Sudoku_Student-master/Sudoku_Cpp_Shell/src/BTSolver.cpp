@@ -179,12 +179,33 @@ pair<map<Variable*,int>,bool> BTSolver::norvigCheck ( void )
 	}
 
 	// part 2: if a constraint has only one possible place for a value then put the value there
+
+	// sudoku board: sudokuGrid
+
 	ConstraintNetwork::ConstraintSet constraints = network.getConstraints();
 	for(Constraint c : constraints){
-
+		for(int i = 1; i <= 9; i++){
+			int avail_pos_count = 0;
+			Variable* toAssign;
+			for(Variable* v : c.vars){
+				if(v->getDomain().contains(i)){
+					avail_pos_count++;
+					toAssign = v;
+				}
+			}
+			if(avail_pos_count == 0){
+				return make_pair(assignedVars, false);
+			}
+			if(avail_pos_count == 1){
+				trail->push(toAssign);
+				toAssign->assignValue(i);
+				if(!network.isConsistent()){
+					return make_pair(assignedVars, false);
+				}
+			}
+		}
 	}
-
-    return make_pair(assignedVars, false);
+    return make_pair(assignedVars, network.isConsistent());
 }
 
 /**
