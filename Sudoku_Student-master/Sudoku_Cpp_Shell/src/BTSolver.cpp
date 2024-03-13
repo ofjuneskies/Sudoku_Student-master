@@ -294,6 +294,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 		retVec.push_back(nullptr);
 		return retVec;
 	}
+
 	Variable* minVar = unassignedVars[0];
 	int minDomSize = minVar->size();
 	int maxNeighboursAffected;
@@ -330,10 +331,10 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 
 
 		if(u->size() == minDomSize && currNeighboursAffected == maxNeighboursAffected){
+			cout << "1" << endl;
 			retVec.push_back(u);
 		}
 	}
-	retVec.push_back(minVar);
     return retVec;
 }
 
