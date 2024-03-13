@@ -320,6 +320,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 		}
 	}
 
+	cout << "minDom: " << minDomSize << " maxNeigh: " << maxNeighboursAffected << endl;
 	for(Variable* u : unassignedVars){
 		int currNeighboursAffected;
 		neighbours = network.getNeighborsOfVariable(u);
@@ -328,6 +329,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 				currNeighboursAffected++;
 			}
 		}
+		cout << "currSize: " << u->size() << " currNeight: " << currNeighboursAffected << endl; 
 	
 		if(u->size() == minDomSize && currNeighboursAffected == maxNeighboursAffected){
 			retVec.push_back(u);
