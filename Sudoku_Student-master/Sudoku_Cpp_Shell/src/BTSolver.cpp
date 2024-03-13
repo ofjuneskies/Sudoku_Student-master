@@ -322,7 +322,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 
 	cout << "minDom: " << minDomSize << " maxNeigh: " << maxNeighboursAffected << endl;
 	for(Variable* u : unassignedVars){
-		int currNeighboursAffected;
+		int currNeighboursAffected = 0;
 		neighbours = network.getNeighborsOfVariable(u);
 		for(Variable* neighbour : neighbours){
 			if(!neighbour->isAssigned()){
