@@ -180,8 +180,6 @@ pair<map<Variable*,int>,bool> BTSolver::norvigCheck ( void )
 
 	// part 2: if a constraint has only one possible place for a value then put the value there
 
-	// sudoku board: sudokuGrid
-
 	ConstraintNetwork::ConstraintSet constraints = network.getConstraints();
 	for(Constraint c : constraints){
 		for(int i = 1; i <= sudokuGrid.get_n(); i++){
