@@ -198,7 +198,7 @@ pair<map<Variable*,int>,bool> BTSolver::norvigCheck ( void )
 				return make_pair(assignedVars, false);
 			}
 			if(avail_pos_count == 1){
-				if(!toAssign->isAssigned){
+				if(!toAssign->isAssigned()){
 					trail->push(toAssign);
 					toAssign->assignValue(i);
 					if(!network.isConsistent()){
