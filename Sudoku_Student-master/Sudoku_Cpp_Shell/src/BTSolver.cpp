@@ -324,7 +324,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 				currNeighboursAffected++;
 			}
 		}
-		if(u->size() <= minDomSize && currNeighboursAffected => maxNeighboursAffected){
+		if(u->size() <= minDomSize && currNeighboursAffected >= maxNeighboursAffected){
 			minDomSize = u->size();
 			maxNeighboursAffected = currNeighboursAffected;
 			minVar = u;
