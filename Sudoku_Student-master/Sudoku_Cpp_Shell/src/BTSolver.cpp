@@ -189,16 +189,21 @@ pair<map<Variable*,int>,bool> BTSolver::norvigCheck ( void )
 				if(v->getDomain().contains(i)){
 					avail_pos_count++;
 					toAssign = v;
+					if(avail_pos_count > 1){
+						continue;
+					}
 				}
 			}
 			if(avail_pos_count == 0){
 				return make_pair(assignedVars, false);
 			}
 			if(avail_pos_count == 1){
-				trail->push(toAssign);
-				toAssign->assignValue(i);
-				if(!network.isConsistent()){
-					return make_pair(assignedVars, false);
+				if(!toAssign->isAssigned){
+					trail->push(toAssign);
+					toAssign->assignValue(i);
+					if(!network.isConsistent()){
+						return make_pair(assignedVars, false);
+					}
 				}
 			}
 		}
