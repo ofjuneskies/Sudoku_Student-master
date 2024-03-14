@@ -310,7 +310,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 
 	// find min
 	for(Variable* u : unassignedVars){
-		if(u->size() <= minDomSize){
+		if(u->size() < minDomSize){
 			minDomSize = u->size();
 			minVar = u;
 		}
@@ -324,6 +324,10 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 		}
 	}
 
+	if(minVec.size() == 0){
+		minVec.push_back(nullptr);
+		return minVec;
+	}
 	if(minVec.size() == 1){
 		return minVec;
 	}
@@ -339,7 +343,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 				currNeighboursAffected++;
 			}
 		}
-		if(maxNeighboursAffected > currNeighboursAffected){
+		if(currNeighboursAffected > maxNeighboursAffected){
 			maxNeighboursAffected = currNeighboursAffected;
 		}
 	}
