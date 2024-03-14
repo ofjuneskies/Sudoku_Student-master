@@ -306,7 +306,6 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 	// set first as min
 	Variable* minVar = unassignedVars[0];
 	int minDomSize = minVar->size();
-	int maxNeighboursAffected = 0;
 	ConstraintNetwork::VariableSet neighbours = network.getNeighborsOfVariable(minVar);
 
 	for(Variable* neighbour : neighbours){
@@ -317,13 +316,6 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 
 	// find min
 	for(Variable* u : unassignedVars){
-		int currNeighboursAffected = 0;
-		neighbours = network.getNeighborsOfVariable(u);
-		for(Variable* neighbour : neighbours){
-			if(!neighbour->isAssigned()){
-				currNeighboursAffected++;
-			}
-		}	
 		if(u->size() <= minDomSize){
 			minDomSize = u->size();
 			minVar = u;
@@ -338,8 +330,12 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 		}
 	}
 
-	// find max neighbours affected
+	if(minVec.size() == 1){
+		return minVec;
+	}
 
+	// find max neighbours affected
+	int maxNeighboursAffected = -1;
 
 	for(Variable* m : minVec){
 		int currNeighboursAffected = 0;
@@ -354,6 +350,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 		}
 	}
 
+	// get max neighbours from mins
 	for(Variable* m : minVec){
 		int currNeighboursAffected = 0;
 		neighbours = network.getNeighborsOfVariable(m);
