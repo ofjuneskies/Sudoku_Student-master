@@ -323,27 +323,50 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 			if(!neighbour->isAssigned()){
 				currNeighboursAffected++;
 			}
-		}
-		if(u->size() <= minDomSize && currNeighboursAffected >= maxNeighboursAffected){
+		}	
+		if(u->size() <= minDomSize){
 			minDomSize = u->size();
-			maxNeighboursAffected = currNeighboursAffected;
 			minVar = u;
 		}
 	}
 
 	// compare all to min and add to vector
+	vector<Variable*> minVec;
 	for(Variable* u : unassignedVars){
+		if(u->size() == minDomSize){
+			minVec.push_back(u);
+		}
+	}
+
+	// find max neighbours affected
+
+
+	for(Variable* m : minVec){
 		int currNeighboursAffected = 0;
 		neighbours = network.getNeighborsOfVariable(u);
 		for(Variable* neighbour : neighbours){
 			if(!neighbour->isAssigned()){
 				currNeighboursAffected++;
 			}
-		}	
-		if(u->size() == minDomSize && currNeighboursAffected == maxNeighboursAffected){
-			retVec.push_back(u);
+		}
+		if(maxNeighboursAffected > currNeighboursAffected){
+			maxNeighboursAffected = currNeighboursAffected;
 		}
 	}
+
+	for(Variable* m : minVec){
+		int currNeighboursAffected = 0;
+		neighbours = network.getNeighborsOfVariable(u);
+		for(Variable* neighbour : neighbours){
+			if(!neighbour->isAssigned()){
+				currNeighboursAffected++;
+			}
+		}
+		if(maxNeighboursAffected == currNeighboursAffected){
+			retVec.push_back(m);
+		}
+	}
+
     return retVec;
 }
 
