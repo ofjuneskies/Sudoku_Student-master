@@ -343,7 +343,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 
 	for(Variable* m : minVec){
 		int currNeighboursAffected = 0;
-		neighbours = network.getNeighborsOfVariable(u);
+		neighbours = network.getNeighborsOfVariable(m);
 		for(Variable* neighbour : neighbours){
 			if(!neighbour->isAssigned()){
 				currNeighboursAffected++;
@@ -356,7 +356,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 
 	for(Variable* m : minVec){
 		int currNeighboursAffected = 0;
-		neighbours = network.getNeighborsOfVariable(u);
+		neighbours = network.getNeighborsOfVariable(m);
 		for(Variable* neighbour : neighbours){
 			if(!neighbour->isAssigned()){
 				currNeighboursAffected++;
