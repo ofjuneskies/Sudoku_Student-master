@@ -298,6 +298,12 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 		return retVec;
 	}
 
+	if(unassignedVars.size() == 1){
+		retVec.push_back(unassignedVars[0]);
+		return retVec;
+	}
+
+	// set first as min
 	Variable* minVar = unassignedVars[0];
 	int minDomSize = minVar->size();
 	int maxNeighboursAffected = 0;
@@ -308,6 +314,8 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 			maxNeighboursAffected++;
 		}
 	}
+
+	// find min
 	for(Variable* u : unassignedVars){
 		int currNeighboursAffected = 0;
 		neighbours = network.getNeighborsOfVariable(u);
@@ -323,6 +331,7 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 		}
 	}
 
+	// compare all to min and add to vector
 	for(Variable* u : unassignedVars){
 		int currNeighboursAffected = 0;
 		neighbours = network.getNeighborsOfVariable(u);
