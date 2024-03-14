@@ -308,12 +308,6 @@ vector<Variable*> BTSolver::MRVwithTieBreaker ( void )
 	int minDomSize = minVar->size();
 	ConstraintNetwork::VariableSet neighbours = network.getNeighborsOfVariable(minVar);
 
-	for(Variable* neighbour : neighbours){
-		if(!neighbour->isAssigned()){
-			maxNeighboursAffected++;
-		}
-	}
-
 	// find min
 	for(Variable* u : unassignedVars){
 		if(u->size() <= minDomSize){
